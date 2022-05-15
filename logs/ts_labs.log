@@ -1,0 +1,467 @@
+2022-03-30 18:32:50:3250 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 18:32:51:3251 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 18:35:21:3521 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 18:35:21:3521 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 18:35:28:3528 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 18:35:53:3553 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 18:36:02:362 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 18:37:59:3759 [35mhttp[39m: [35m##### GET / #####[39m
+2022-03-30 18:38:00:380 [35mhttp[39m: [35m##### GET /favicon.ico #####[39m
+2022-03-30 18:38:05:385 [35mhttp[39m: [35m##### GET /api #####[39m
+2022-03-30 18:38:10:3810 [35mhttp[39m: [35m##### GET /api/v1 #####[39m
+2022-03-30 18:38:15:3815 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 18:39:41:3941 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 18:44:36:4436 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 18:44:36:4436 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 18:44:39:4439 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 18:47:50:4750 [35mhttp[39m: [35m##### POST /api/v1/reset #####[39m
+2022-03-30 18:47:50:4750 [32minfo[39m: [32m# MySQL scripts for dropping existing tables and recreating the database table structure[39m
+
+
+[32m### DROP EVERYTHING ###[39m
+[32m# Tables/views must be dropped in reverse order due to referential constraints (foreign keys).[39m
+
+[32mDROP TABLE IF EXISTS `auction_watching`;[39m
+[32mDROP TABLE IF EXISTS `auction_bid`;[39m
+[32mDROP TABLE IF EXISTS `auction`;[39m
+[32mDROP TABLE IF EXISTS `user`;[39m
+[32mDROP TABLE IF EXISTS `category`;[39m
+
+[32m### TABLES ###[39m
+[32m# Tables must be created in a particular order due to referential constraints i.e. foreign keys.[39m
+
+[32mCREATE TABLE `user` ([39m
+[32m  `id`          int(11)       NOT NULL AUTO_INCREMENT,[39m
+[32m  `email`       varchar(128)  NOT NULL,[39m
+[32m  `first_name`  varchar(64)   NOT NULL,[39m
+[32m  `last_name`   varchar(64)   NOT NULL,[39m
+[32m  `image_filename`  varchar(64)   DEFAULT NULL,[39m
+[32m  `password`    varchar(256)  NOT NULL COMMENT 'Only store the hash here, not the actual password!',[39m
+[32m  `auth_token`  varchar(256)  DEFAULT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY `unique_key` (`email`)[39m
+[32m);[39m
+
+[32mCREATE TABLE `category` ([39m
+[32m  `id`         int(11)     NOT NULL   AUTO_INCREMENT,[39m
+[32m  `name`       varchar(24) NOT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY `name` (`name` )[39m
+[32m);[39m
+
+[32mCREATE TABLE `auction` ([39m
+[32m  `id`                          int(11)       NOT NULL AUTO_INCREMENT,[39m
+[32m  `title`                       VARCHAR(128)  NOT NULL,[39m
+[32m  `description`                 VARCHAR(2048) NOT NULL,[39m
+[32m  `end_date`                    DATETIME      NOT NULL,[39m
+[32m  `image_filename`              VARCHAR(64)   NULL,[39m
+[32m  `reserve`                     int(11)       DEFAULT 0 NULL,[39m
+[32m  `seller_id`                   int(11)       NOT NULL,[39m
+[32m  `category_id`            int(11)       NOT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY (`title`, `seller_id` ),[39m
+[32m  FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`),[39m
+[32m  FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)[39m
+[32m);[39m
+
+[32mCREATE TABLE `auction_bid` ([39m
+[32m  `id`   int(11)         NOT NULL AUTO_INCREMENT,[39m
+[32m  `auction_id`           int(11)    NOT NULL,[39m
+[32m  `user_id`              int(11)    NOT NULL,[39m
+[32m  `amount`               int(11)    NOT NULL,[39m
+[32m  `timestamp`     DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,[39m
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY (`auction_id`, `user_id`, `amount`),[39m
+[32m  FOREIGN KEY (`user_id`)            REFERENCES `user` (`id`),[39m
+[32m  FOREIGN KEY (`auction_id`)         REFERENCES `auction` (`id`)[39m
+[32m);[39m
+[32m[39m
+2022-03-30 18:47:56:4756 [35mhttp[39m: [35m##### POST /api/v1/resample #####[39m
+2022-03-30 18:48:36:4836 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 18:52:57:5257 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 18:52:57:5257 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 18:53:01:531 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 18:59:03:593 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 18:59:03:593 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 18:59:08:598 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 19:00:21:021 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 19:00:21:021 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 19:00:24:024 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 19:06:11:611 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 19:16:48:1648 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 19:16:48:1648 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 19:16:54:1654 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 19:17:25:1725 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 19:19:06:196 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 19:49:14:4914 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 19:49:14:4914 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 19:50:05:505 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 19:50:27:5027 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 19:57:16:5716 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 19:57:16:5716 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 19:57:23:5723 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:16:21:1621 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:16:21:1621 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:16:24:1624 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:16:33:1633 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:19:24:1924 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:19:24:1924 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:19:28:1928 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:19:28:1928 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:19:28:1928 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-03-30 20:36:20:3620 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:36:20:3620 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:37:17:3717 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:37:17:3717 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:37:20:3720 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:37:20:3720 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:37:20:3720 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-03-30 20:38:01:381 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:38:01:381 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:38:07:387 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:38:07:387 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:38:07:387 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-03-30 20:38:31:3831 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:38:31:3831 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:38:34:3834 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:38:34:3834 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:38:34:3834 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-03-30 20:39:30:3930 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:39:30:3930 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:39:33:3933 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:39:33:3933 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:39:33:3933 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-03-30 20:47:43:4743 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:47:43:4743 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:47:46:4746 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:47:46:4746 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:47:47:4747 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-03-30 20:48:58:4858 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:48:58:4858 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:49:00:490 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:49:00:490 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:49:00:490 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-03-30 20:49:26:4926 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:49:26:4926 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:49:28:4928 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:49:28:4928 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:49:28:4928 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-03-30 20:50:49:5049 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-03-30 20:50:49:5049 [32minfo[39m: [32mListening on port: 4941[39m
+2022-03-30 20:50:53:5053 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:50:53:5053 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:50:53:5053 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-03-30 20:51:39:5139 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-03-30 20:51:39:5139 [35mhttp[39m: [35mGET all/subset of auctions[39m
+2022-03-30 20:51:39:5139 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-04-04 12:11:06:116 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 12:11:06:116 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 12:11:14:1114 [35mhttp[39m: [35m##### POST /api/v1/reload #####[39m
+2022-04-04 12:11:14:1114 [32minfo[39m: [32m# MySQL scripts for dropping existing tables and recreating the database table structure[39m
+
+
+[32m### DROP EVERYTHING ###[39m
+[32m# Tables/views must be dropped in reverse order due to referential constraints (foreign keys).[39m
+
+[32mDROP TABLE IF EXISTS `auction_watching`;[39m
+[32mDROP TABLE IF EXISTS `auction_bid`;[39m
+[32mDROP TABLE IF EXISTS `auction`;[39m
+[32mDROP TABLE IF EXISTS `user`;[39m
+[32mDROP TABLE IF EXISTS `category`;[39m
+
+[32m### TABLES ###[39m
+[32m# Tables must be created in a particular order due to referential constraints i.e. foreign keys.[39m
+
+[32mCREATE TABLE `user` ([39m
+[32m  `id`          int(11)       NOT NULL AUTO_INCREMENT,[39m
+[32m  `email`       varchar(128)  NOT NULL,[39m
+[32m  `first_name`  varchar(64)   NOT NULL,[39m
+[32m  `last_name`   varchar(64)   NOT NULL,[39m
+[32m  `image_filename`  varchar(64)   DEFAULT NULL,[39m
+[32m  `password`    varchar(256)  NOT NULL COMMENT 'Only store the hash here, not the actual password!',[39m
+[32m  `auth_token`  varchar(256)  DEFAULT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY `unique_key` (`email`)[39m
+[32m);[39m
+
+[32mCREATE TABLE `category` ([39m
+[32m  `id`         int(11)     NOT NULL   AUTO_INCREMENT,[39m
+[32m  `name`       varchar(24) NOT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY `name` (`name` )[39m
+[32m);[39m
+
+[32mCREATE TABLE `auction` ([39m
+[32m  `id`                          int(11)       NOT NULL AUTO_INCREMENT,[39m
+[32m  `title`                       VARCHAR(128)  NOT NULL,[39m
+[32m  `description`                 VARCHAR(2048) NOT NULL,[39m
+[32m  `end_date`                    DATETIME      NOT NULL,[39m
+[32m  `image_filename`              VARCHAR(64)   NULL,[39m
+[32m  `reserve`                     int(11)       DEFAULT 0 NULL,[39m
+[32m  `seller_id`                   int(11)       NOT NULL,[39m
+[32m  `category_id`            int(11)       NOT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY (`title`, `seller_id` ),[39m
+[32m  FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`),[39m
+[32m  FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)[39m
+[32m);[39m
+
+[32mCREATE TABLE `auction_bid` ([39m
+[32m  `id`   int(11)         NOT NULL AUTO_INCREMENT,[39m
+[32m  `auction_id`           int(11)    NOT NULL,[39m
+[32m  `user_id`              int(11)    NOT NULL,[39m
+[32m  `amount`               int(11)    NOT NULL,[39m
+[32m  `timestamp`     DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,[39m
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY (`auction_id`, `user_id`, `amount`),[39m
+[32m  FOREIGN KEY (`user_id`)            REFERENCES `user` (`id`),[39m
+[32m  FOREIGN KEY (`auction_id`)         REFERENCES `auction` (`id`)[39m
+[32m);[39m
+[32m[39m
+2022-04-04 12:11:38:1138 [35mhttp[39m: [35m##### POST /api/v1/users/register #####[39m
+2022-04-04 12:11:38:1138 [32minfo[39m: [32mAttempting to register new user[39m
+2022-04-04 12:11:38:1138 [32minfo[39m: [32mRegistering new user[39m
+2022-04-04 12:11:38:1138 [32minfo[39m: [32mUser successfully registered[39m
+2022-04-04 12:11:45:1145 [35mhttp[39m: [35m##### POST /api/v1/users/login #####[39m
+2022-04-04 12:11:45:1145 [32minfo[39m: [32mLogging in user[39m
+2022-04-04 12:11:45:1145 [32minfo[39m: [32mVerifying Password[39m
+2022-04-04 12:11:58:1158 [35mhttp[39m: [35m##### PATCH /api/v1/auctions/%7B%7Bauction_id%7D%7D #####[39m
+2022-04-04 12:12:09:129 [35mhttp[39m: [35m##### POST /api/v1/auctions #####[39m
+2022-04-04 12:12:09:129 [32minfo[39m: [32mAttempting to create auction[39m
+2022-04-04 12:12:13:1213 [35mhttp[39m: [35m##### POST /api/v1/auctions #####[39m
+2022-04-04 12:12:13:1213 [32minfo[39m: [32mAttempting to create auction[39m
+2022-04-04 12:12:22:1222 [35mhttp[39m: [35m##### GET /api/v1/auctions #####[39m
+2022-04-04 12:12:22:1222 [32minfo[39m: [32mGET all/subset of auctions[39m
+2022-04-04 12:12:22:1222 [32minfo[39m: [32mGetting all auctions from the database[39m
+2022-04-04 12:12:32:1232 [35mhttp[39m: [35m##### POST /api/v1/auctions #####[39m
+2022-04-04 12:12:32:1232 [32minfo[39m: [32mAttempting to create auction[39m
+2022-04-04 12:13:19:1319 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 12:13:19:1319 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 12:13:29:1329 [35mhttp[39m: [35m##### POST /api/v1/auctions #####[39m
+2022-04-04 12:13:29:1329 [32minfo[39m: [32mAttempting to create auction[39m
+2022-04-04 12:13:29:1329 [35mhttp[39m: [35mCreating auction in database[39m
+2022-04-04 12:13:53:1353 [35mhttp[39m: [35m##### PATCH /api/v1/auctions/%7B%7Bauction_id%7D%7D #####[39m
+2022-04-04 12:14:46:1446 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 12:14:46:1446 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 12:14:51:1451 [35mhttp[39m: [35m##### PATCH /api/v1/auctions/%7B%7Bauction_id%7D%7D #####[39m
+2022-04-04 12:15:29:1529 [35mhttp[39m: [35m##### POST /api/v1/reload #####[39m
+2022-04-04 12:15:29:1529 [32minfo[39m: [32m# MySQL scripts for dropping existing tables and recreating the database table structure[39m
+
+
+[32m### DROP EVERYTHING ###[39m
+[32m# Tables/views must be dropped in reverse order due to referential constraints (foreign keys).[39m
+
+[32mDROP TABLE IF EXISTS `auction_watching`;[39m
+[32mDROP TABLE IF EXISTS `auction_bid`;[39m
+[32mDROP TABLE IF EXISTS `auction`;[39m
+[32mDROP TABLE IF EXISTS `user`;[39m
+[32mDROP TABLE IF EXISTS `category`;[39m
+
+[32m### TABLES ###[39m
+[32m# Tables must be created in a particular order due to referential constraints i.e. foreign keys.[39m
+
+[32mCREATE TABLE `user` ([39m
+[32m  `id`          int(11)       NOT NULL AUTO_INCREMENT,[39m
+[32m  `email`       varchar(128)  NOT NULL,[39m
+[32m  `first_name`  varchar(64)   NOT NULL,[39m
+[32m  `last_name`   varchar(64)   NOT NULL,[39m
+[32m  `image_filename`  varchar(64)   DEFAULT NULL,[39m
+[32m  `password`    varchar(256)  NOT NULL COMMENT 'Only store the hash here, not the actual password!',[39m
+[32m  `auth_token`  varchar(256)  DEFAULT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY `unique_key` (`email`)[39m
+[32m);[39m
+
+[32mCREATE TABLE `category` ([39m
+[32m  `id`         int(11)     NOT NULL   AUTO_INCREMENT,[39m
+[32m  `name`       varchar(24) NOT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY `name` (`name` )[39m
+[32m);[39m
+
+[32mCREATE TABLE `auction` ([39m
+[32m  `id`                          int(11)       NOT NULL AUTO_INCREMENT,[39m
+[32m  `title`                       VARCHAR(128)  NOT NULL,[39m
+[32m  `description`                 VARCHAR(2048) NOT NULL,[39m
+[32m  `end_date`                    DATETIME      NOT NULL,[39m
+[32m  `image_filename`              VARCHAR(64)   NULL,[39m
+[32m  `reserve`                     int(11)       DEFAULT 0 NULL,[39m
+[32m  `seller_id`                   int(11)       NOT NULL,[39m
+[32m  `category_id`            int(11)       NOT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY (`title`, `seller_id` ),[39m
+[32m  FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`),[39m
+[32m  FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)[39m
+[32m);[39m
+
+[32mCREATE TABLE `auction_bid` ([39m
+[32m  `id`   int(11)         NOT NULL AUTO_INCREMENT,[39m
+[32m  `auction_id`           int(11)    NOT NULL,[39m
+[32m  `user_id`              int(11)    NOT NULL,[39m
+[32m  `amount`               int(11)    NOT NULL,[39m
+[32m  `timestamp`     DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,[39m
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY (`auction_id`, `user_id`, `amount`),[39m
+[32m  FOREIGN KEY (`user_id`)            REFERENCES `user` (`id`),[39m
+[32m  FOREIGN KEY (`auction_id`)         REFERENCES `auction` (`id`)[39m
+[32m);[39m
+[32m[39m
+2022-04-04 12:15:32:1532 [35mhttp[39m: [35m##### POST /api/v1/users/register #####[39m
+2022-04-04 12:15:32:1532 [32minfo[39m: [32mAttempting to register new user[39m
+2022-04-04 12:15:32:1532 [32minfo[39m: [32mRegistering new user[39m
+2022-04-04 12:15:33:1533 [32minfo[39m: [32mUser successfully registered[39m
+2022-04-04 12:15:35:1535 [35mhttp[39m: [35m##### POST /api/v1/users/login #####[39m
+2022-04-04 12:15:35:1535 [32minfo[39m: [32mLogging in user[39m
+2022-04-04 12:15:35:1535 [32minfo[39m: [32mVerifying Password[39m
+2022-04-04 12:15:40:1540 [35mhttp[39m: [35m##### POST /api/v1/auctions #####[39m
+2022-04-04 12:15:40:1540 [32minfo[39m: [32mAttempting to create auction[39m
+2022-04-04 12:15:40:1540 [35mhttp[39m: [35mCreating auction in database[39m
+2022-04-04 12:15:48:1548 [35mhttp[39m: [35m##### PATCH /api/v1/auctions/16 #####[39m
+2022-04-04 12:17:16:1716 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 12:17:16:1716 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 12:17:21:1721 [35mhttp[39m: [35m##### POST /api/v1/reload #####[39m
+2022-04-04 12:17:21:1721 [32minfo[39m: [32m# MySQL scripts for dropping existing tables and recreating the database table structure[39m
+
+
+[32m### DROP EVERYTHING ###[39m
+[32m# Tables/views must be dropped in reverse order due to referential constraints (foreign keys).[39m
+
+[32mDROP TABLE IF EXISTS `auction_watching`;[39m
+[32mDROP TABLE IF EXISTS `auction_bid`;[39m
+[32mDROP TABLE IF EXISTS `auction`;[39m
+[32mDROP TABLE IF EXISTS `user`;[39m
+[32mDROP TABLE IF EXISTS `category`;[39m
+
+[32m### TABLES ###[39m
+[32m# Tables must be created in a particular order due to referential constraints i.e. foreign keys.[39m
+
+[32mCREATE TABLE `user` ([39m
+[32m  `id`          int(11)       NOT NULL AUTO_INCREMENT,[39m
+[32m  `email`       varchar(128)  NOT NULL,[39m
+[32m  `first_name`  varchar(64)   NOT NULL,[39m
+[32m  `last_name`   varchar(64)   NOT NULL,[39m
+[32m  `image_filename`  varchar(64)   DEFAULT NULL,[39m
+[32m  `password`    varchar(256)  NOT NULL COMMENT 'Only store the hash here, not the actual password!',[39m
+[32m  `auth_token`  varchar(256)  DEFAULT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY `unique_key` (`email`)[39m
+[32m);[39m
+
+[32mCREATE TABLE `category` ([39m
+[32m  `id`         int(11)     NOT NULL   AUTO_INCREMENT,[39m
+[32m  `name`       varchar(24) NOT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY `name` (`name` )[39m
+[32m);[39m
+
+[32mCREATE TABLE `auction` ([39m
+[32m  `id`                          int(11)       NOT NULL AUTO_INCREMENT,[39m
+[32m  `title`                       VARCHAR(128)  NOT NULL,[39m
+[32m  `description`                 VARCHAR(2048) NOT NULL,[39m
+[32m  `end_date`                    DATETIME      NOT NULL,[39m
+[32m  `image_filename`              VARCHAR(64)   NULL,[39m
+[32m  `reserve`                     int(11)       DEFAULT 0 NULL,[39m
+[32m  `seller_id`                   int(11)       NOT NULL,[39m
+[32m  `category_id`            int(11)       NOT NULL,[39m
+
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY (`title`, `seller_id` ),[39m
+[32m  FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`),[39m
+[32m  FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)[39m
+[32m);[39m
+
+[32mCREATE TABLE `auction_bid` ([39m
+[32m  `id`   int(11)         NOT NULL AUTO_INCREMENT,[39m
+[32m  `auction_id`           int(11)    NOT NULL,[39m
+[32m  `user_id`              int(11)    NOT NULL,[39m
+[32m  `amount`               int(11)    NOT NULL,[39m
+[32m  `timestamp`     DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,[39m
+[32m  PRIMARY KEY (`id`),[39m
+[32m  UNIQUE KEY (`auction_id`, `user_id`, `amount`),[39m
+[32m  FOREIGN KEY (`user_id`)            REFERENCES `user` (`id`),[39m
+[32m  FOREIGN KEY (`auction_id`)         REFERENCES `auction` (`id`)[39m
+[32m);[39m
+[32m[39m
+2022-04-04 12:17:26:1726 [35mhttp[39m: [35m##### POST /api/v1/users/register #####[39m
+2022-04-04 12:17:26:1726 [32minfo[39m: [32mAttempting to register new user[39m
+2022-04-04 12:17:26:1726 [32minfo[39m: [32mRegistering new user[39m
+2022-04-04 12:17:26:1726 [32minfo[39m: [32mUser successfully registered[39m
+2022-04-04 12:17:29:1729 [35mhttp[39m: [35m##### POST /api/v1/users/login #####[39m
+2022-04-04 12:17:29:1729 [32minfo[39m: [32mLogging in user[39m
+2022-04-04 12:17:29:1729 [32minfo[39m: [32mVerifying Password[39m
+2022-04-04 12:17:33:1733 [35mhttp[39m: [35m##### POST /api/v1/auctions #####[39m
+2022-04-04 12:17:33:1733 [32minfo[39m: [32mAttempting to create auction[39m
+2022-04-04 12:17:33:1733 [35mhttp[39m: [35mCreating auction in database[39m
+2022-04-04 12:17:38:1738 [35mhttp[39m: [35m##### PATCH /api/v1/auctions/16 #####[39m
+2022-04-04 12:17:38:1738 [35mhttp[39m: [35mAttempting to update auction[39m
+2022-04-04 12:18:57:1857 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 12:18:57:1857 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 12:19:02:192 [35mhttp[39m: [35m##### PATCH /api/v1/auctions/16 #####[39m
+2022-04-04 12:19:02:192 [35mhttp[39m: [35mAttempting to update auction[39m
+2022-04-04 14:58:32:5832 [31merror[39m: [31mUnable to connect to MySQL.[39m
+2022-04-04 14:59:04:594 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 14:59:04:594 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 14:59:09:599 [35mhttp[39m: [35m##### GET /api/v1/auctions/999999999/bids #####[39m
+2022-04-04 15:00:24:024 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:00:24:024 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:00:26:026 [35mhttp[39m: [35m##### GET /api/v1/auctions/999999999/bids #####[39m
+2022-04-04 15:02:11:211 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:02:11:211 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:02:15:215 [35mhttp[39m: [35m##### GET /api/v1/auctions/999999999/bids #####[39m
+2022-04-04 15:02:31:231 [35mhttp[39m: [35m##### GET /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:03:51:351 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:03:51:351 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:03:54:354 [35mhttp[39m: [35m##### GET /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:04:17:417 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:04:17:417 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:04:19:419 [35mhttp[39m: [35m##### GET /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:04:34:434 [35mhttp[39m: [35m##### GET /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:04:44:444 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:06:42:642 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:06:42:642 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:06:45:645 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:07:32:732 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:07:32:732 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:07:40:740 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:08:20:820 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:08:20:820 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:08:23:823 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:08:52:852 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:08:52:852 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:08:54:854 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:09:02:92 [35mhttp[39m: [35m##### POST /api/v1/auctions/16/bids #####[39m
+2022-04-04 15:13:46:1346 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:13:46:1346 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:13:48:1348 [35mhttp[39m: [35m##### POST /api/v1/auctions/16/bids #####[39m
+2022-04-04 15:16:38:1638 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:16:38:1638 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:16:40:1640 [35mhttp[39m: [35m##### POST /api/v1/auctions/16/bids #####[39m
+2022-04-04 15:17:05:175 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:17:05:175 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:17:08:178 [35mhttp[39m: [35m##### POST /api/v1/auctions/16/bids #####[39m
+2022-04-04 15:17:57:1757 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:18:09:189 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:18:09:189 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:18:12:1812 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:18:25:1825 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:18:58:1858 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:22:33:2233 [32minfo[39m: [32mSuccessfully connected to database[39m
+2022-04-04 15:22:33:2233 [32minfo[39m: [32mListening on port: 4941[39m
+2022-04-04 15:22:38:2238 [35mhttp[39m: [35m##### POST /api/v1/auctions/1/bids #####[39m
+2022-04-04 15:22:38:2238 [32minfo[39m: [32mChecking if user is auction seller[39m
+2022-04-04 15:23:34:2334 [35mhttp[39m: [35m##### POST /api/v1/auctions #####[39m
+2022-04-04 15:23:34:2334 [32minfo[39m: [32mAttempting to create auction[39m
+2022-04-04 15:23:34:2334 [35mhttp[39m: [35mCreating auction in database[39m
+2022-04-04 15:24:12:2412 [35mhttp[39m: [35m##### POST /api/v1/auctions/16/bids #####[39m
+2022-04-04 15:24:13:2413 [32minfo[39m: [32mChecking if user is auction seller[39m
